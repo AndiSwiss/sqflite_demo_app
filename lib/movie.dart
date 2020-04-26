@@ -38,14 +38,14 @@ class Movie {
   Movie.map(dynamic obj) {
     this.id = obj['id'];
     this.title = obj['title'];
-    this.posterUrl = obj['posterUrl'];
     this.releaseDate = obj['releaseDate'];
     this.description = obj['description'];
+    this.posterUrl = obj['posterUrl'];
     if (this.posterUrl != null) {
       this.posterUrl = "https://image.tmdb.org/t/p/w342" + this.posterUrl;
       this.poster = Image.network(posterUrl);
     }
-    // todo: the same for 9 parameters like abstractness -> maybe combined in one string!)
+    // TODO: the same for 9 parameters like abstractness -> maybe combined in one string!)
   }
 
   // Named constructor for database-operation (needed by database_helper.dart),
@@ -54,14 +54,14 @@ class Movie {
   Movie.fromMap(Map<String, dynamic> map) {
     this.id = map['id'];
     this.title = map['title'];
-    this.posterUrl = map['posterUrl'];
     this.releaseDate = map['releaseDate'];
     this.description = map['description'];
+    this.posterUrl = map['posterUrl'];
     if (this.posterUrl != null) {
       this.posterUrl = "https://image.tmdb.org/t/p/w342" + this.posterUrl;
       this.poster = Image.network(posterUrl);
     }
-    // todo: the same for 9 parameters like abstractness -> maybe combined in one string!)
+    // TODO: the same for 9 parameters like abstractness -> maybe combined in one string!)
   }
 
   // For database-operation (needed by database_helper.dart), see also:
@@ -70,10 +70,13 @@ class Movie {
     var map = new Map<String, dynamic>();
     map['id'] = id;
     map['title'] = title;
-    map['posterUrl'] = posterUrl;
     map['releaseDate'] = releaseDate.toIso8601String();
-    map['description'] = description;
-    // todo: the same for 9 parameters like abstractness -> maybe combined in one string!)
+
+    // TODO: fix the following: 'description' and 'posterUrl':
+//    map['description'] = description;
+//    map['posterUrl'] = posterUrl;
+
+    // TODO: the same for 9 parameters like abstractness -> maybe combined in one string!)
 
     return map;
   }

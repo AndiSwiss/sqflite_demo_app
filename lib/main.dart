@@ -100,26 +100,28 @@ class MyHomePage extends StatelessWidget {
   void _delete() async {
     // Assuming that the number of rows is the id for the last row.
 //    final id = await dbHelper.getCount();
-    final id = 15;
+    final id = 114;
     final rowsDeleted = await dbHelper.delete(id);
     print('deleted $rowsDeleted row(s): row $id');
   }
 
   Movie exampleMovie() {
     return Movie(
-        id: 15,
+        id: 114,
         title: 'Prötti Wämün',
-        posterUrl: 'https://google.com/pretty_woman',
-        releaseDate: DateTime(1970, 4, 20),
-        description: 'nice move');
+        posterUrl: 'hMVMMy1yDUvdufpTl8J8KKNYaZX.jpg',
+        releaseDate: DateTime(1990, 1, 1),
+        description:
+            'When a millionaire wheeler-dealer enters a business contract with a Hollywood hooker Vivian Ward, he loses his heart in the bargain.');
   }
 
   Movie updatedMovie() {
     return Movie(
-        id: 15,
+        id: 114,
         title: 'Pretty Woman',
-        posterUrl: 'https://google.com/pretty_woman',
-        releaseDate: DateTime(1970, 4, 20),
-        description: 'nice move');
+        posterUrl: 'hMVMMy1yDUvdufpTl8J8KKNYaZX.jpg',
+        releaseDate: DateTime(1990, 1, 1),
+        description:
+            'When a millionaire wheeler-dealer enters a business contract with a Hollywood hooker Vivian Ward, he loses his heart in the bargain.');
   }
 }
