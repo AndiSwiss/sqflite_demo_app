@@ -71,8 +71,10 @@ class Movie {
     map['id'] = id;
     map['title'] = title;
     map['posterUrl'] = posterUrl;
-    map['releaseDate'] = releaseDate;
+    map['releaseDate'] = releaseDate.toIso8601String();
     map['description'] = description;
-    // todo: the same for 9 paramaters like abstractness -> maybe combined in one string!)
+    // todo: the same for 9 parameters like abstractness -> maybe combined in one string!)
+
+    return map;
   }
 }

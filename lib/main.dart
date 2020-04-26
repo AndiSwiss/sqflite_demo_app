@@ -81,8 +81,7 @@ class MyHomePage extends StatelessWidget {
   // Button onPressed methods
 
   void _insert() async {
-    // TODO: the problem is, that my movie is null!!!! -> repair that!
-    print('my example movie: ${exampleMovie().toMap()}');
+    print('my example movie (with .toMap): ${exampleMovie().toMap()}');
     final id = await dbHelper.insert(exampleMovie());
     print('inserted row id: $id');
   }
