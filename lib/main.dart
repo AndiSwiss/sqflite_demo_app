@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-// change `flutter_database` to whatever your project name is
 import 'package:sqflitedemoapp/database_helper.dart';
+import 'package:sqflitedemoapp/movie.dart';
 
 void main() => runApp(MyApp());
 
@@ -21,6 +21,9 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatelessWidget {
   // reference to our single class that manages the database
   final dbHelper = DatabaseHelper.instance;
+
+  // TODO: Try to have the movies inside the app:
+//  final List<Movie> movies = List();
 
   // homepage layout
   @override
@@ -78,36 +81,46 @@ class MyHomePage extends StatelessWidget {
   // Button onPressed methods
 
   void _insert() async {
-    // row to insert
-    Map<String, dynamic> row = {
-      DatabaseHelper.columnName: 'Bob',
-      DatabaseHelper.columnAge: 23
-    };
-    final id = await dbHelper.insert(row);
+    // TODO: the problem is, that my movie is null!!!! -> repair that!
+    print('my example movie: ${exampleMovie().toMap()}');
+    final id = await dbHelper.insert(exampleMovie());
     print('inserted row id: $id');
   }
 
   void _query() async {
-    final allRows = await dbHelper.queryAllRows();
+    final allRows = await dbHelper.getAllMovies();
     print('query all rows:');
     allRows.forEach((row) => print(row));
   }
 
   void _update() async {
-    // row to update
-    Map<String, dynamic> row = {
-      DatabaseHelper.columnId: 1,
-      DatabaseHelper.columnName: 'Mary',
-      DatabaseHelper.columnAge: 32
-    };
-    final rowsAffected = await dbHelper.update(row);
+    final rowsAffected = await dbHelper.update(updatedMovie());
     print('updated $rowsAffected row(s)');
   }
 
   void _delete() async {
     // Assuming that the number of rows is the id for the last row.
-    final id = await dbHelper.queryRowCount();
+//    final id = await dbHelper.getCount();
+    final id = 15;
     final rowsDeleted = await dbHelper.delete(id);
     print('deleted $rowsDeleted row(s): row $id');
+  }
+
+  Movie exampleMovie() {
+    return Movie(
+        id: 15,
+        title: 'Prötti Wämün',
+        posterUrl: 'https://google.com/pretty_woman',
+        releaseDate: DateTime(1970, 4, 20),
+        description: 'nice move');
+  }
+
+  Movie updatedMovie() {
+    return Movie(
+        id: 15,
+        title: 'Pretty Woman',
+        posterUrl: 'https://google.com/pretty_woman',
+        releaseDate: DateTime(1970, 4, 20),
+        description: 'nice move');
   }
 }
