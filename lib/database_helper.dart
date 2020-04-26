@@ -11,7 +11,7 @@ import 'package:sqflitedemoapp/movie.dart';
 /// https://grokonez.com/flutter/flutter-sqlite-example-crud-sqflite-example
 class DatabaseHelper {
   static final _databaseName = "MyDatabase.db";
-  static final _databaseVersion = 2;
+  static final _databaseVersion = 1;
 
   static final table = 'my_table';
 
@@ -72,7 +72,9 @@ class DatabaseHelper {
   // https://github.com/tekartik/sqflite/blob/master/sqflite/doc/migration_example.md
   Future _onUpgrade(Database db, int oldVersion, int newVersion) async {
     // TODO: The following is a very hard upgrade strategy: I just delete a
-//    //  possible previous version of the table!
+    //  possible previous version of the table!
+    //  But it somehow doesn't work, maybe I have to add 'await' before the
+    //  db.execute(...) ??
 //    db.execute('DROP TABLE IF EXISTS $table');
 //    print('Old table successfully deleted before HARD upgrade!');
 //    _onCreate(db, newVersion);

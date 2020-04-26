@@ -1,6 +1,7 @@
 # sqflitedemoapp
 
-Simple SQFlite database example in Flutter (from post on medium.com)
+Simple SQFlite database example in Flutter.
+
 
 ## Getting Started
 

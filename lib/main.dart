@@ -102,7 +102,7 @@ class MyHomePage extends StatelessWidget {
 //    final id = await dbHelper.getCount();
     final id = 114;
     final rowsDeleted = await dbHelper.delete(id);
-    print('deleted $rowsDeleted row(s): row $id');
+    print('deleted $rowsDeleted row(s): movie-id $id');
   }
 
   Movie exampleMovie() {
