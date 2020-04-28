@@ -59,9 +59,9 @@ class DatabaseHelper {
           CREATE TABLE $table (
             $columnId INTEGER PRIMARY KEY,
             $columnTitle TEXT NOT NULL,
-            $columnReleaseDate TEXT
-            $columnDescription TEXT
-            $columnPosterUrl TEXT
+            $columnReleaseDate TEXT,
+            $columnDescription TEXT,
+            $columnPosterUrl TEXT,
             $columnPoster BLOB
           )
           ''');

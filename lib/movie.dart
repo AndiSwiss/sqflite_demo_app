@@ -71,10 +71,8 @@ class Movie {
     map['id'] = id;
     map['title'] = title;
     map['releaseDate'] = releaseDate.toIso8601String();
-
-    // TODO: fix the following: 'description' and 'posterUrl':
-//    map['description'] = description;
-//    map['posterUrl'] = posterUrl;
+    map['description'] = description;
+    map['posterUrl'] = posterUrl;
 
     // TODO: the same for 9 parameters like abstractness -> maybe combined in one string!)
 
