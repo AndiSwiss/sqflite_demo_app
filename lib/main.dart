@@ -53,7 +53,7 @@ class MyHomePage extends StatelessWidget {
                 RaisedButton(
                   child: Text(
                     'add movie',
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 16),
                   ),
                   onPressed: () {
                     _insert();
@@ -62,7 +62,7 @@ class MyHomePage extends StatelessWidget {
                 RaisedButton(
                   child: Text(
                     'query all',
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 16),
                   ),
                   onPressed: () {
                     _query();
@@ -75,8 +75,8 @@ class MyHomePage extends StatelessWidget {
               children: <Widget>[
                 RaisedButton(
                   child: Text(
-                    'update first',
-                    style: TextStyle(fontSize: 20),
+                    'update',
+                    style: TextStyle(fontSize: 16),
                   ),
                   onPressed: () {
                     _update();
@@ -84,11 +84,20 @@ class MyHomePage extends StatelessWidget {
                 ),
                 RaisedButton(
                   child: Text(
-                    'delete one',
-                    style: TextStyle(fontSize: 20),
+                    'delete',
+                    style: TextStyle(fontSize: 16),
                   ),
                   onPressed: () {
                     _delete();
+                  },
+                ),
+                RaisedButton(
+                  child: Text(
+                    'rate movie',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  onPressed: () {
+                    _rateMovie();
                   },
                 ),
               ],
@@ -126,15 +135,14 @@ class MyHomePage extends StatelessWidget {
   }
 
   void _query() async {
-    final allRows = await dbHelper.getAllMovies();
-    print('Query all rows:');
-    allRows.forEach((row) => print(row));
+    final allMovies = await dbHelper.getAllMovies();
+    print('Query all movies:');
+    allMovies.forEach((movie) => print(movie));
   }
 
   void _update() async {
     // First check, whether the movie is already updated
     final correctedTitle = 'Pretty Woman';
-
     final id = exampleMovie1().id;
     final Movie movie = await dbHelper.getMovie(id);
     if (movie == null) {
@@ -143,25 +151,48 @@ class MyHomePage extends StatelessWidget {
       print('The movie is already updated!');
     } else {
       movie.title = correctedTitle;
-      final rowsAffected = await dbHelper.update(movie);
-      print('Updated $rowsAffected row(s), corrected title: $correctedTitle');
+      final moviesAffected = await dbHelper.update(movie);
+      print(
+          'Updated $moviesAffected movies(s), corrected title: $correctedTitle');
     }
   }
 
   void _delete() async {
 //    final id = await dbHelper.getCount();
     final id = exampleMovie1().id;
-    final rowsDeleted = await dbHelper.delete(id);
-    if (rowsDeleted > 0) {
-      print('Deleted $rowsDeleted row(s): movie-id $id.');
+    final moviesDeleted = await dbHelper.delete(id);
+    if (moviesDeleted > 0) {
+      print('Deleted $moviesDeleted movies(s): movie-id $id.');
     } else {
       final id2 = exampleMovie2().id;
-      final rowsDeleted2 = await dbHelper.delete(id2);
-      if (rowsDeleted2 > 0) {
-        print('Deleted $rowsDeleted2 row(s): movie-id $id2.');
+      final moviesDeleted2 = await dbHelper.delete(id2);
+      if (moviesDeleted2 > 0) {
+        print('Deleted $moviesDeleted2 movies(s): movie-id $id2.');
       } else {
         print('No movie was deleted.');
       }
+    }
+  }
+
+  void _rateMovie() async {
+    final id = exampleMovie1().id;
+    final Movie movie = await dbHelper.getMovie(id);
+    if (movie == null) {
+      print('Movie can\'t be rated, because it\'s not in the db.');
+    } else if (movie.abstractness == 20.0) {
+      print('The movie is already rated.');
+    } else {
+      movie.abstractness = 20.0;
+      movie.cinematography = 75.4;
+      movie.romanticness = 40.2;
+      movie.complexity = 0.0;
+      movie.darkness = 100.0;
+      movie.humor = 50.04;
+      movie.realism = 30.324532;
+      movie.suspense = 23.34;
+      movie.wokeness = 14.14;
+      final moviesAffected = await dbHelper.update(movie);
+      print('Successfully rated $moviesAffected movie(s).');
     }
   }
 
