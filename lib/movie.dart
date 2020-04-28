@@ -54,7 +54,14 @@ class Movie {
   Movie.fromMap(Map<String, dynamic> map) {
     this.id = map['id'];
     this.title = map['title'];
-    this.releaseDate = map['releaseDate'];
+    try {
+      String dateAsString = map['releaseDate'];
+      this.releaseDate = DateTime.parse(
+        dateAsString,
+      );
+    } catch (e) {
+      print(e);
+    }
     this.description = map['description'];
     this.posterUrl = map['posterUrl'];
     if (this.posterUrl != null) {
@@ -77,5 +84,10 @@ class Movie {
     // TODO: the same for 9 parameters like abstractness -> maybe combined in one string!)
 
     return map;
+  }
+
+  @override
+  String toString() {
+    return 'Movie{id: $id, title: $title, releaseDate: $releaseDate, ...}';
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:sqflitedemoapp/database_helper.dart';
 import 'package:sqflitedemoapp/movie.dart';
+import 'package:sqflitedemoapp/raw_query.dart';
 
 void main() => runApp(MyApp());
 
@@ -34,44 +35,70 @@ class MyHomePage extends StatelessWidget {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            RaisedButton(
+            Padding(
+              padding: const EdgeInsets.only(top: 16.0, bottom: 8.0),
               child: Text(
-                'insert',
-                style: TextStyle(fontSize: 20),
+                'NOTE: All output is shown in the console.',
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red[900]),
               ),
-              onPressed: () {
-                _insert();
-              },
             ),
-            RaisedButton(
-              child: Text(
-                'query',
-                style: TextStyle(fontSize: 20),
-              ),
-              onPressed: () {
-                _query();
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                RaisedButton(
+                  child: Text(
+                    'add movie',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  onPressed: () {
+                    _insert();
+                  },
+                ),
+                RaisedButton(
+                  child: Text(
+                    'query all',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  onPressed: () {
+                    _query();
+                  },
+                ),
+              ],
             ),
-            RaisedButton(
-              child: Text(
-                'update',
-                style: TextStyle(fontSize: 20),
-              ),
-              onPressed: () {
-                _update();
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                RaisedButton(
+                  child: Text(
+                    'update first',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  onPressed: () {
+                    _update();
+                  },
+                ),
+                RaisedButton(
+                  child: Text(
+                    'delete one',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  onPressed: () {
+                    _delete();
+                  },
+                ),
+              ],
             ),
-            RaisedButton(
-              child: Text(
-                'delete',
-                style: TextStyle(fontSize: 20),
-              ),
-              onPressed: () {
-                _delete();
-              },
+            Divider(
+              thickness: 2,
+              indent: 100,
+              endIndent: 100,
             ),
+            RawQuery(),
           ],
         ),
       ),
@@ -81,47 +108,80 @@ class MyHomePage extends StatelessWidget {
   // Button onPressed methods
 
   void _insert() async {
-    print('my example movie (with .toMap): ${exampleMovie().toMap()}');
-    final id = await dbHelper.insert(exampleMovie());
-    print('inserted row id: $id');
+    final id1 = exampleMovie1().id;
+    final Movie movie1 = await dbHelper.getMovie(id1);
+    if (movie1 == null) {
+      final id = await dbHelper.insert(exampleMovie1());
+      print('Inserted movie id: $id');
+    } else {
+      final id2 = exampleMovie2().id;
+      final Movie movie2 = await dbHelper.getMovie(id2);
+      if (movie2 == null) {
+        final id = await dbHelper.insert(exampleMovie2());
+        print('Inserted movie id: $id');
+      } else {
+        print('No movie was added (all movies are already in the db).');
+      }
+    }
   }
 
   void _query() async {
     final allRows = await dbHelper.getAllMovies();
-    print('query all rows:');
+    print('Query all rows:');
     allRows.forEach((row) => print(row));
   }
 
   void _update() async {
-    final rowsAffected = await dbHelper.update(updatedMovie());
-    print('updated $rowsAffected row(s)');
+    // First check, whether the movie is already updated
+    final correctedTitle = 'Pretty Woman';
+
+    final id = exampleMovie1().id;
+    final Movie movie = await dbHelper.getMovie(id);
+    if (movie == null) {
+      print('The movie was not updated, because it is not in the db!');
+    } else if (movie.title == correctedTitle) {
+      print('The movie is already updated!');
+    } else {
+      movie.title = correctedTitle;
+      final rowsAffected = await dbHelper.update(movie);
+      print('Updated $rowsAffected row(s), corrected title: $correctedTitle');
+    }
   }
 
   void _delete() async {
-    // Assuming that the number of rows is the id for the last row.
 //    final id = await dbHelper.getCount();
-    final id = 114;
+    final id = exampleMovie1().id;
     final rowsDeleted = await dbHelper.delete(id);
-    print('deleted $rowsDeleted row(s): movie-id $id');
+    if (rowsDeleted > 0) {
+      print('Deleted $rowsDeleted row(s): movie-id $id.');
+    } else {
+      final id2 = exampleMovie2().id;
+      final rowsDeleted2 = await dbHelper.delete(id2);
+      if (rowsDeleted2 > 0) {
+        print('Deleted $rowsDeleted2 row(s): movie-id $id2.');
+      } else {
+        print('No movie was deleted.');
+      }
+    }
   }
 
-  Movie exampleMovie() {
+  Movie exampleMovie1() {
     return Movie(
         id: 114,
         title: 'Prötti Wämün',
         posterUrl: 'hMVMMy1yDUvdufpTl8J8KKNYaZX.jpg',
-        releaseDate: DateTime(1990, 1, 1),
+        releaseDate: DateTime(1990, 3, 23),
         description:
             'When a millionaire wheeler-dealer enters a business contract with a Hollywood hooker Vivian Ward, he loses his heart in the bargain.');
   }
 
-  Movie updatedMovie() {
+  Movie exampleMovie2() {
     return Movie(
-        id: 114,
-        title: 'Pretty Woman',
-        posterUrl: 'hMVMMy1yDUvdufpTl8J8KKNYaZX.jpg',
-        releaseDate: DateTime(1990, 1, 1),
+        id: 545609,
+        title: 'Extraction',
+        posterUrl: 'wlfDxbGEsW58vGhFljKkcR5IxDj.jpg',
+        releaseDate: DateTime(2020, 4, 24),
         description:
-            'When a millionaire wheeler-dealer enters a business contract with a Hollywood hooker Vivian Ward, he loses his heart in the bargain.');
+            'Tyler Rake, a fearless mercenary who offers his services on the black market, embarks on a dangerous mission when he is hired to rescue the kidnapped son of a Mumbai crime lord...');
   }
 }

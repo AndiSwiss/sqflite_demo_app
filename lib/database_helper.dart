@@ -142,4 +142,17 @@ class DatabaseHelper {
     Database db = await instance.database;
     return await db.delete(table, where: '$columnId = ?', whereArgs: [id]);
   }
+
+  // Executes a raw SQL-Query as provided.
+  Future<List<Map<String, dynamic>>> executeRawQuery(String query) async {
+    Database db = await instance.database;
+    print('You entered: $query');
+    try {
+      return await db.rawQuery(query);
+    } catch (e) {
+      print('ERROR! You entered an invalid query!');
+      print(e.toString());
+      return null;
+    }
+  }
 }
