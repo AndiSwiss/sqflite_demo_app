@@ -35,7 +35,8 @@ class _RawQueryState extends State<RawQuery> {
                   ),
                   Text(
                     '''
-SELECT * FROM my_table
+SELECT * FROM my_table ...
+        ... WHERE title='Extraction'
 SELECT COUNT(*) FROM my_table
 SELECT sql FROM sqlite_master''',
                     textAlign: TextAlign.center,
