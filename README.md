@@ -5,7 +5,9 @@ Simple SQFlite database example in Flutter.
 Created by Andreas Ambühl - [https://github.com/AndiSwiss](https://github.com/AndiSwiss)
 
 ## Screenshot of the application
-![](https://github.com/andiswiss/sqflite_demo_app/blob/master/documentation/app-screenshot_small.png?raw=true | width=251)
+
+<img src="https://github.com/andiswiss/sqflite_demo_app/blob/master/documentation/app-screenshot_small.png"
+ alt="screenshot of the app" width="251"/>
 
 ## Getting Started
 
