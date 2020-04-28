@@ -11,7 +11,8 @@ import 'package:sqflitedemoapp/movie.dart';
 /// https://grokonez.com/flutter/flutter-sqlite-example-crud-sqflite-example
 class DatabaseHelper {
   static final _databaseName = "MyDatabase.db";
-  static final _databaseVersion = 1;
+  static final _databaseVersion =
+      2; // Version 2: introducing new table-column 'ratings'
 
   static final table = 'my_table';
 
@@ -21,6 +22,7 @@ class DatabaseHelper {
   static final columnDescription = 'description';
   static final columnPosterUrl = 'posterUrl';
   static final columnPoster = 'poster';
+  static final columnRatings = 'ratings';
 
   // make this a singleton class
   DatabaseHelper._privateConstructor();
@@ -62,7 +64,8 @@ class DatabaseHelper {
             $columnReleaseDate TEXT,
             $columnDescription TEXT,
             $columnPosterUrl TEXT,
-            $columnPoster BLOB
+            $columnPoster BLOB,
+            $columnRatings TEXT,
           )
           ''');
   }
@@ -71,6 +74,12 @@ class DatabaseHelper {
   // More or less from
   // https://github.com/tekartik/sqflite/blob/master/sqflite/doc/migration_example.md
   Future _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion == 1) {
+      await db.execute('ALTER TABLE $table ADD $columnRatings TEXT');
+      print(
+          "Database upgraded from version 1 to version 2, added column '$columnRatings'");
+    }
+
     // TODO: The following is a very hard upgrade strategy: I just delete a
     //  possible previous version of the table!
     //  But it somehow doesn't work, maybe I have to add 'await' before the
