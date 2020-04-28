@@ -1,5 +1,6 @@
 import 'package:flutter/Material.dart';
 
+/// Data class for a movie
 class Movie {
   int id;
   String title;
@@ -17,6 +18,7 @@ class Movie {
   double suspense = 50;
   double wokeness = 50;
 
+  /// Basic constructor
   Movie(
       {this.id,
       this.title,
@@ -99,7 +101,8 @@ class Movie {
   /// For database-operations, because all the ratings are saved in one
   /// single string in the database
   String _convertAllRatingsToOneString() {
-    return '$abstractness $cinematography $romanticness $complexity $darkness $humor $realism $suspense $wokeness';
+    return '$abstractness $cinematography $romanticness $complexity $darkness '
+        '$humor $realism $suspense $wokeness';
   }
 
   /// For database-operations, because all the ratings are saved in one
@@ -126,8 +129,15 @@ class Movie {
 //    }
   }
 
+  /// For testing purposes, with some shortened strings
   @override
   String toString() {
-    return 'Movie{id: $id, title: $title, releaseDate: $releaseDate, ...}';
+    final int limit = 20;
+    return 'Movie{id: $id, title: $title, releaseDate: $releaseDate, '
+        'description: ${description.substring(0, limit)}..., '
+        'posterUrl: ${posterUrl.substring(0, limit)}..., '
+        'poster: ${poster.toString().substring(0, limit)}..., '
+        'ratings: $abstractness $cinematography $romanticness '
+        '$complexity $darkness $humor $realism $suspense $wokeness}';
   }
 }

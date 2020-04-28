@@ -6,6 +6,11 @@ import 'package:sqflitedemoapp/raw_query.dart';
 
 void main() => runApp(MyApp());
 
+/// @author: Andreas Ambühl, https://github.com/AndiSwiss
+///
+/// Test-application for getting to know how the sqflite actually works,
+/// including all CRUD-operations, executing any possible SQlite-statement,
+/// database-migrations and more.
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -52,7 +57,7 @@ class MyHomePage extends StatelessWidget {
               children: <Widget>[
                 RaisedButton(
                   child: Text(
-                    'add movie',
+                    'add a movie',
                     style: TextStyle(fontSize: 16),
                   ),
                   onPressed: () {
@@ -75,7 +80,7 @@ class MyHomePage extends StatelessWidget {
               children: <Widget>[
                 RaisedButton(
                   child: Text(
-                    'update',
+                    'update first',
                     style: TextStyle(fontSize: 16),
                   ),
                   onPressed: () {
@@ -84,7 +89,7 @@ class MyHomePage extends StatelessWidget {
                 ),
                 RaisedButton(
                   child: Text(
-                    'delete',
+                    'delete one',
                     style: TextStyle(fontSize: 16),
                   ),
                   onPressed: () {
@@ -93,7 +98,7 @@ class MyHomePage extends StatelessWidget {
                 ),
                 RaisedButton(
                   child: Text(
-                    'rate movie',
+                    'rate first',
                     style: TextStyle(fontSize: 16),
                   ),
                   onPressed: () {
@@ -114,23 +119,17 @@ class MyHomePage extends StatelessWidget {
     );
   }
 
-  // Button onPressed methods
+  // ------------------------ //
+  // Button onPressed methods //
+  // ------------------------ //
 
   void _insert() async {
-    final id1 = exampleMovie1().id;
-    final Movie movie1 = await dbHelper.getMovie(id1);
-    if (movie1 == null) {
-      final id = await dbHelper.insert(exampleMovie1());
-      print('Inserted movie id: $id');
-    } else {
-      final id2 = exampleMovie2().id;
-      final Movie movie2 = await dbHelper.getMovie(id2);
-      if (movie2 == null) {
-        final id = await dbHelper.insert(exampleMovie2());
-        print('Inserted movie id: $id');
-      } else {
-        print('No movie was added (all movies are already in the db).');
-      }
+    final id1 = await dbHelper.insert(exampleMovie1());
+    if (id1 == -1) {
+      final id2 = await dbHelper.insert(exampleMovie2());
+//      if (id2 == -1) {
+//        print('No movie was added (all movies are already in the db).');
+//      }
     }
   }
 
@@ -152,8 +151,8 @@ class MyHomePage extends StatelessWidget {
     } else {
       movie.title = correctedTitle;
       final moviesAffected = await dbHelper.update(movie);
-      print(
-          'Updated $moviesAffected movies(s), corrected title: $correctedTitle');
+      print('Updated $moviesAffected movies(s), corrected '
+          'title: $correctedTitle');
     }
   }
 
@@ -196,6 +195,8 @@ class MyHomePage extends StatelessWidget {
     }
   }
 
+  /// Provides an exampleMovie
+  /// (not yet rated, and with a intentionally wrong title)
   Movie exampleMovie1() {
     return Movie(
         id: 114,
@@ -203,9 +204,12 @@ class MyHomePage extends StatelessWidget {
         posterUrl: 'hMVMMy1yDUvdufpTl8J8KKNYaZX.jpg',
         releaseDate: DateTime(1990, 3, 23),
         description:
-            'When a millionaire wheeler-dealer enters a business contract with a Hollywood hooker Vivian Ward, he loses his heart in the bargain.');
+            'When a millionaire wheeler-dealer enters a business contract with '
+            'a Hollywood hooker Vivian Ward, he loses his heart in the '
+            'bargain.');
   }
 
+  /// Provides another exampleMovie (not yet rated)
   Movie exampleMovie2() {
     return Movie(
         id: 545609,
@@ -213,6 +217,8 @@ class MyHomePage extends StatelessWidget {
         posterUrl: 'wlfDxbGEsW58vGhFljKkcR5IxDj.jpg',
         releaseDate: DateTime(2020, 4, 24),
         description:
-            'Tyler Rake, a fearless mercenary who offers his services on the black market, embarks on a dangerous mission when he is hired to rescue the kidnapped son of a Mumbai crime lord...');
+            'Tyler Rake, a fearless mercenary who offers his services on the '
+            'black market, embarks on a dangerous mission when he is hired '
+            'to rescue the kidnapped son of a Mumbai crime lord...');
   }
 }

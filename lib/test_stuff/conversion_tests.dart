@@ -1,3 +1,5 @@
+/// @author: Andreas Ambühl, https://github.com/AndiSwiss
+///
 /// This file is for testing only - run separately in your IDE
 /// I mainly developed the string-conversions of the ratings with this file.
 main() {
@@ -34,7 +36,8 @@ class SimpleMovie {
   double wokeness = 50;
 
   String convertRatingsToOneString() {
-    return '$abstractness $cinematography $romanticness $complexity $darkness $humor $realism $suspense $wokeness';
+    return '$abstractness $cinematography $romanticness $complexity $darkness '
+        '$humor $realism $suspense $wokeness';
   }
 
   bool convertStringToRatings(String string) {
@@ -58,7 +61,10 @@ class SimpleMovie {
 
   @override
   String toString() {
-    return 'SimpleMovie{abstractness: $abstractness, cinematography: $cinematography, romanticness: $romanticness, complexity: $complexity, darkness: $darkness, humor: $humor, realism: $realism, suspense: $suspense, wokeness: $wokeness}';
+    return 'SimpleMovie{abstractness: $abstractness, '
+        'cinematography: $cinematography, romanticness: $romanticness, '
+        'complexity: $complexity, darkness: $darkness, humor: $humor, '
+        'realism: $realism, suspense: $suspense, wokeness: $wokeness}';
   }
 }
 
